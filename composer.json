@@ -1,0 +1,6 @@
+{
+    "name": "root/html",
+    "require": {
+        "mongodb/mongodb": "^1.5"
+    }
+}
