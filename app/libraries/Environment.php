@@ -84,7 +84,7 @@ class Env
                 ];
             case 'mongodb':
                 return [
-                    'master' => "mongodb://{$databaseInfo['master_username']}.{$databaseInfo['master_password']}@{$databaseInfo['master_dsn']}:{$databaseInfo['master_port']}/test"
+                    'master' => "mongodb://{$databaseInfo['master_username']}:{$databaseInfo['master_password']}@{$databaseInfo['master_dsn']}:{$databaseInfo['master_port']}"
                 ];
         }
 

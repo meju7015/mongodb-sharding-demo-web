@@ -5,15 +5,15 @@
  */
 class HomeModel extends Model
 {
-    public function selectUsers($userID)
-    {
-
-    }
-
     public function find()
     {
-        $collection = $this->connect->test->TestCollection;
+        $collection = $this->connect->mongodb_tutorial->users;
 
-        return $collection->find();
+        return $collection->find()->toArray();
+    }
+
+    public function createCollection($collection)
+    {
+
     }
 }

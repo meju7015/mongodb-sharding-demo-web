@@ -13,8 +13,7 @@ class HomeController extends Controller implements Controllable
 
         $model = new HomeModel();
 
-        print_r($model->find());
-
+        Debug::display($model->find());
 
         $this->view
             ->load('home', 'index', $viewData)
