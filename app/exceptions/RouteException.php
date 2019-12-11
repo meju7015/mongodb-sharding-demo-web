@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ¶ó¿ìÆ® Exception
+ * ë¼ìš°íŠ¸ Exception
  */
 class RouteException extends Exception implements Exceptions
 {
@@ -28,7 +28,7 @@ class RouteException extends Exception implements Exceptions
     public function display()
     {
         $view = new View();
-        $view->loadView(
+        $view->load(
             'exception',
             $this->getCode(),
             Array(

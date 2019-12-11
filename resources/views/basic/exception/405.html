@@ -1,6 +1,15 @@
-<html>
+<!--
+Develop by :
+┌─┬─┐┌──┐┌──┐┌──┐┌──┐
+│ │ │├──┤│  ┘│  ││  │
+│ │ ││  │└──┐│  ││  │
+│ │ ││  │   ││  ││  │
+┘ ┴ └┴  ┴───┴┴──┴┘  └──
+https://masondev.org
+-->
+<!DOCTYPE html>
 <head>
-    <meta charset="EUC-KR">
+    <meta charset="UTF-8">
     <title><?=$head['title']?> Exception page</title>
 
     <? foreach ($head['js'] as $key => $src) { ?>
@@ -11,7 +20,7 @@
     <link rel="stylesheet" href="<?=$src?>">
     <? } ?>
 
-    <link rel="stylesheet" href="/css/exception/common.css">
+    <link rel="stylesheet" href="<?=Config::DEFAULT_PUBLIC?>/css/exception/common.css">
 
 </head>
 <body>
@@ -26,4 +35,4 @@
     </div>
 </div>
 </body>
-</html>
+</DOCTYPEhtml>

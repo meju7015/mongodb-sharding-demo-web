@@ -1,7 +1,6 @@
 <?php
-
 /**
- * Ä¿¸Çµå Exception
+ * ì»¤ë§¨ë“œ Exception
  */
 class CommandException extends Exception implements Exceptions
 {
@@ -10,28 +9,20 @@ class CommandException extends Exception implements Exceptions
     public function __construct($message = "", $code = 0, $hint = "")
     {
         parent::__construct($message, $code);
-
         $this->display();
     }
 
     public function display()
     {
-        print_r(Array(
-            'exception',
-            $this->getCode(),
-            Array(
-                'msg'   => iconv('EUC-KR', 'UTF-8', $this->message),
-                'code'  => $this->code,
-                'trace' => $this->getTrace(),
-                'hint'  => $this->hint
-            )
-        ));
-        exit;
+        $trace = $this->getTrace();
+
+        printf("\n%s \n\nfile: %s\nline: %s\nclass: %s\nfunction: %s\n\n", $this->message, $trace[0]['file'], $trace[0]['line'], $trace[0]['class'], $trace[0]['function']);
+        $this->save();
     }
 
-    // TODO :: DB¿¡ ÀúÀåÇÏµç ÆÄÀÏ·Î ¶³±¸´ø ·Î±ëÀ» ÇØ¾ßÇÑ´Ù. Å©·ÐÀÏ¼öµµ ÀÖÀ¸´Ï±î.
+    // TODO :: DBì— ì €ìž¥í•˜ë“  íŒŒì¼ë¡œ ë–¨êµ¬ë˜ ë¡œê¹…ì„ í•´ì•¼í•œë‹¤. í¬ë¡ ì¼ìˆ˜ë„ ìžˆìœ¼ë‹ˆê¹Œ.
     public function save()
     {
-
+        return false;
     }
 }

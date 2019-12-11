@@ -1,26 +1,19 @@
 <?php
 class MakeController extends Controller
 {
-    public function __construct()
-    {
-
-    }
-
-    public function makeAll($params)
+    public function all($params)
     {
         if ($this->makeController($params)) {
             $this->makeRouter($params);
             $this->makeModel($params);
-
-            echo "complete..!".PHP_EOL;
         };
     }
 
-    public function makeModel($params)
+    public function model($params)
     {
         if (empty($params[2])) {
             throw new CommandException(
-              'ÇÊ¼ö ÆÄ¶ó¹ÌÅÍ°¡ ´©¶ôµÇ¾ú½À´Ï´Ù. »ı¼ºÇÒ ¸ğµ¨ ÀÌ¸§À» ÀÔ·ÂÇØ ÁÖ¼¼¿ä.',
+              'í•„ìˆ˜ íŒŒë¼ë¯¸í„°ê°€ ëˆ„ë½ë˜ì—ˆìŠµë‹ˆë‹¤. ìƒì„±í•  ëª¨ë¸ ì´ë¦„ì„ ì…ë ¥í•´ ì£¼ì„¸ìš”.',
               600
             );
         }
@@ -35,11 +28,12 @@ class MakeController extends Controller
 
         if (!file_exists($modelPath)) {
             if (file_put_contents($modelPath, $contents)) {
-               return true;
+                printf("\ncomplete! \n\npath: %s \nrouter: %s\n\n", $modelPath, $modelName);
+                return true;
             }
         }else {
             throw new CommandException(
-                'ÀÌ¹Ì ÇØ´ç ¸ğµ¨ÀÌ Á¸ÀçÇÕ´Ï´Ù.',
+                'ì´ë¯¸ í•´ë‹¹ ëª¨ë¸ì´ ì¡´ì¬í•©ë‹ˆë‹¤.',
                 601
             );
         }
@@ -47,11 +41,11 @@ class MakeController extends Controller
         return false;
     }
 
-    public function makeController($params)
+    public function controller($params)
     {
         if (empty($params[2])) {
             throw new CommandException(
-              'ÇÊ¼ö ÆÄ¶ó¹ÌÅÍ°¡ ´©¶ôµÇ¾ú½À´Ï´Ù. »ı¼ºÇÒ ÄÁÆ®·Ñ·¯ ÀÌ¸§À» ÀÔ·ÂÇØ ÁÖ¼¼¿ä.',
+              'í•„ìˆ˜ íŒŒë¼ë¯¸í„°ê°€ ëˆ„ë½ë˜ì—ˆìŠµë‹ˆë‹¤. ìƒì„±í•  ì»¨íŠ¸ë¡¤ëŸ¬ ì´ë¦„ì„ ì…ë ¥í•´ ì£¼ì„¸ìš”.',
               600
             );
         }
@@ -67,11 +61,12 @@ class MakeController extends Controller
 
         if (!file_exists($controllerPath)) {
             if (file_put_contents($controllerPath, $contents)) {
+                printf("\ncomplete! \n\npath: %s \ncontroller: %s\n\n", $controllerPath, $controllerName);
                 return true;
             }
         } else {
             throw new CommandException(
-                'ÀÌ¹Ì ÇØ´ç ÄÁÆ®·Ñ·¯°¡ Á¸ÀçÇÕ´Ï´Ù.',
+                'ì´ë¯¸ í•´ë‹¹ ì»¨íŠ¸ë¡¤ëŸ¬ê°€ ì¡´ì¬í•©ë‹ˆë‹¤.',
                 601
             );
         }
@@ -79,11 +74,11 @@ class MakeController extends Controller
         return false;
     }
 
-    public function makeRouter($params)
+    public function router($params)
     {
         if (empty($params[2])) {
             throw new CommandException(
-              'ÇÊ¼ö ÆÄ¶ó¹ÌÅÍ°¡ ´©¶ôµÇ¾ú½À´Ï´Ù. »ı¼ºÇÒ ¶ó¿ìÅÍ ¹× ¿¬°áµÉ ÄÁÆ®·Ñ·¯ÀÇ ÀÌ¸§À» ÀÔ·ÂÇØ ÁÖ¼¼¿ä.',
+              'í•„ìˆ˜ íŒŒë¼ë¯¸í„°ê°€ ëˆ„ë½ë˜ì—ˆìŠµë‹ˆë‹¤. ìƒì„±í•  ë¼ìš°í„° ë° ì—°ê²°ë  ì»¨íŠ¸ë¡¤ëŸ¬ì˜ ì´ë¦„ì„ ì…ë ¥í•´ ì£¼ì„¸ìš”.',
               600
             );
         }
@@ -104,11 +99,12 @@ class MakeController extends Controller
 
         if (!file_exists($routerPath)) {
             if (file_put_contents($routerPath, $contents)) {
+                printf("\ncomplete! \n\npath: %s \nrouter: %s\n\n", $routerPath, $routerName);
                 return true;
             }
         } else {
             throw new CommandException(
-                'ÀÌ¹Ì ÇØ´ç ¶ó¿ìÅÍ°¡ Á¸ÀçÇÕ´Ï´Ù.',
+                'ì´ë¯¸ í•´ë‹¹ ë¼ìš°í„°ê°€ ì¡´ì¬í•©ë‹ˆë‹¤.',
                 601
             );
         }

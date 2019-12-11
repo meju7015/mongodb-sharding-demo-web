@@ -1,28 +1,23 @@
 <?php
 
 /**
- * »ç¿ëÀÚ Á¤ÀÇ ÄÁÆ®·Ñ·¯
+ * ì‚¬ìš©ì ì •ì˜ ì»¨íŠ¸ë¡¤ëŸ¬
  */
 class HomeController extends Controller implements Controllable
 {
     public function index($request, $params)
     {
         $viewData = Array(
-            'test' => 'test'
+            'allow' => true
         );
 
-        $HomeModel = $this->model->loadModel('HomeModel');
-        $HomeModel->selectUsers('root');
+        $model = new HomeModel();
+
+        print_r($model->find());
+
 
         $this->view
-            ->loadView('home', 'index', $viewData)
-            ->display();
-    }
-
-    public function homes($request, $params)
-    {
-        $this->view
-            ->loadView('home', 'home')
+            ->load('home', 'index', $viewData)
             ->display();
     }
 }

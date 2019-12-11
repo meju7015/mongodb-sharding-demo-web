@@ -1,11 +1,5 @@
 <?php
-
-/**
- * Created by PhpStorm.
- * User: admin
- * Date: 2019-09-19
- * Time: ¿ÀÈÄ 5:05
- */
+include_once __DIR__ . '/../vendor/autoload.php';
 include_once "../app/configure/Static.php";
 include_once "../app/configure/Config.php";
 include_once "../app/configure/DBConfig.php";

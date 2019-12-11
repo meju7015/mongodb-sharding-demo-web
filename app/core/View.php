@@ -1,10 +1,9 @@
 <?php
-
 /**
- * Created by PhpStorm.
- * User: admin
+ * View í´ë˜ìŠ¤
+ * User: mason
  * Date: 2019-09-19
- * Time: ¿ÀÈÄ 5:49
+ * Time: ì˜¤í›„ 5:49
  */
 class View
 {
@@ -20,14 +19,14 @@ class View
      *
      * @var array
      */
-    protected $head;
+    public $head;
 
     /**
      * Extract data
      *
      * @var
      */
-    protected $data;
+    public $data;
 
     /**
      * Theme directory
@@ -44,20 +43,36 @@ class View
     protected $template;
 
     /**
-     * Àı´ë°æ·Î
-     * 
-     * @var 
+     * ì ˆëŒ€ê²½ë¡œ
+     *
+     * @var
      */
     protected $rootDir;
 
-    /**
-     * View constructor.
-     */
     public function __construct()
     {
         $this->theme = Config::DEFAULT_THEME;
         $this->template = Config::DEFAULT_TEMPLATE;
         $this->rootDir = Config::getRootDir();
+
+        $topGNB = [
+            'Extends' => [
+                'sub' => [
+                    'í´ë¦½ë³´ë”' => [
+                        'router' => Config::DEFAULT_SITE.'/clip',
+                    ],
+                    'í•´ì‹œ/ì•”í˜¸í™”' => [
+                        'router' => Config::DEFAULT_SITE.'/crypt',
+                    ],
+                    'Converter' => [
+                        'router' => Config::DEFAULT_SITE.'/convert',
+                    ],
+                ]
+            ],
+            'Uploader' => [
+                'router' => Config::DEFAULT_SITE.'/upload',
+            ],
+        ];
 
         $this->head = Array(
             'title' => Config::APPLICATION_NAME,
@@ -65,36 +80,37 @@ class View
                 'description' => Config::DEFAULT_DESCRIPTION
             ),
             'js' => Array(
-                'common' => '/js/uframework/config/common.js',
-                'jquery' => '/js/jquery/jquery-3.4.1.min.js',
-                'bootstrap' => '/js/bootstrap/bootstrap.bundle.js'
+                'common' => Config::DEFAULT_PUBLIC.'/js/copy/config/common.js',
+                'jquery' => Config::DEFAULT_PUBLIC.'/js/jquery/jquery-3.4.1.min.js',
+                'bootstrap' => Config::DEFAULT_PUBLIC.'/js/bootstrap/bootstrap.bundle.js'
             ),
             'css' => Array(
-                'bootstrap' => '/css/bootstrap/bootstrap.min.css'
+                'bootstrap' => Config::DEFAULT_PUBLIC.'/css/bootstrap/bootstrap.min.css'
             )
         );
 
         $this->data = Array(
-            'head' => $this->head,
             'session' => '',
-            'debug' => UDebug::pop(),
-            'CSRF_TOKEN' => Security::getCSRFDetect()
+            'debug' => Debug::pop(),
+            'CSRF_TOKEN' => Security::getCSRFDetect(),
+            'topGNB' => $topGNB
         );
     }
 
     /**
-     * ºä ·Îµå
-     * 
+     * ë·° ë¡œë“œ
+     *
      * @param string    $view
      * @param string    $endPoint
      * @param array     $data
      * @return false|string
      * @throws ViewException
      */
-    public function loadView($view, $endPoint, $data = null)
+    public function load($view, $endPoint, $data = null)
     {
         $view = strtolower($view);
 
+        $this->data['head'] = $this->head;
         $viewFile = "{$this->rootDir}/resources/views/{$this->theme}/{$view}/{$endPoint}.{$this->template}";
 
         if (file_exists($viewFile)) {
@@ -111,7 +127,7 @@ class View
 
             return $this;
         } else {
-            throw new ViewException('ºä ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù. EndPoint ¸¦ È®ÀÎÇÏ¼¼¿ä.', 405);
+            throw new ViewException('ë·° íŒŒì¼ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤. EndPoint ë¥¼ í™•ì¸í•˜ì„¸ìš”.', 405, $viewFile);
         }
     }
 

@@ -1,65 +1,62 @@
 <?php
-
 /**
- * ¸ğµ¨ Å¬·¡½º
+ * ëª¨ë¸ í´ë˜ìŠ¤
  */
 class Model
 {
     /**
-     * PDO °´Ã¼
-     * 
-     * @var PDO 
+     * PDO ê°ì²´
+     *
+     * @var PDO
      */
     protected $connect;
 
     /**
-     * ÃÖ»óÀ§ ·çÆ®
+     * ìµœìƒìœ„ ë£¨íŠ¸
      *
      * @var
      */
     protected $rootDir;
 
     /**
-     * Äõ¸®ºô´õ Object
+     * ì¿¼ë¦¬ë¹Œë” Object
      *
      * @var QueryBuilder
      */
     public $builder;
 
+    public static $connectFactory;
+
     public function __construct()
     {
-        $this->rootDir = Config::getRootDir();
+        if (!Model::$connectFactory) {
+            $this->rootDir = Config::getRootDir();
 
-        $dbInfo = Env::getDBConnectInfo();
+            $dbInfo = Env::getDBConnectInfo();
 
-        try {
-            if (is_array($dbInfo)) {
-                foreach ($dbInfo as $key => $item) {
-                    $this->$key = Connection::connect(
-                        $item['dsn'],
-                        $item['username'],
-                        $item['password']
-                    );
-                }
-            } else {
-                throw new PDOException('PDO Connection error', 500);
+            Debug::display($dbInfo);
+
+            try {
+                Model::$connectFactory = new MongoDB\Client($dbInfo['master']);
+                $this->connect = Model::$connectFactory;
+                /*if (is_array($dbInfo)) {
+                    foreach ($dbInfo as $key => $item) {
+                        $this->$key = new MongoDB\Client($item);
+                    }
+                } else {
+                    throw new PDOException('PDO Connection error', 500);
+                }*/
+            } catch (PDOException $e) {
+                $viewException = new ModelException('PDO connect error : ' . $e->getMessage(), 500);
+                $viewException->display();
             }
-
-            $this->builder = new Query(Array(
-                'connection'        => $this->master,
-                'slaveConnection'   => $this->slave
-            ));
-
-        } catch (PDOException $e) {
-            // TODO :: slave key °¡ connection ÀÌ ¾ÈµÇ¾îÀÖÀ¸¸é select query ¸¦ master·Î º¸³»°í ·Î±×¸¦ ½×°ÔÇÑ´Ù..
-
-            $viewException = new ModelException('PDO connect error : '.$e->getMessage(), 500);
-            $viewException->display();
+        } else {
+            $this->connect = Model::$connectFactory;
         }
     }
 
     /**
-     * ¸ğµ¨ ·Îµå
+     * ëª¨ë¸ ë¡œë“œ
      *
      * @param string    $model
      * @return Object|false
@@ -70,14 +67,14 @@ class Model
         $modelFile = "{$this->rootDir}app/models/{$model}.php";
 
         if (file_exists($modelFile)) {
-            UDebug::store(Array(
+            Debug::store(Array(
                 'model' => $model,
                 'path'  => $modelFile
             ), 'model');
 
             return new $model();
         } else {
-            throw new ModelException('¸ğµ¨ ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.', 405);
+            throw new ModelException('ëª¨ë¸ íŒŒì¼ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.', 405);
         }
     }
 }

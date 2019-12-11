@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ¸ðµ¨ Exception
+ * ï¿½ï¿½ Exception
  */
 class ModelException extends Exception implements Exceptions
 {
@@ -28,7 +28,7 @@ class ModelException extends Exception implements Exceptions
     public function display()
     {
         $view = new View();
-        $view->loadView(
+        $view->load(
             'exception',
             $this->getCode(),
             Array(

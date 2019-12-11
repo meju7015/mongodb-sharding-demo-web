@@ -1,26 +1,26 @@
 <?php
-
 /**
- * ÄÁÆ®·Ñ·¯ Å¬·¡½º
- * 5.4 ÀÌÇÏ ¹öÀü¿ë
+ * ì»¨íŠ¸ë¡¤ëŸ¬ í´ë˜ìŠ¤
+ * 5.4 ì´í•˜ ë²„ì „ìš©
  */
 class Controller
 {
-    protected $model;
     protected $view;
     protected $user;
 
+    protected $topGNB;
+
     public function __construct()
     {
-        session_start();
-
         $_SESSION['CSRF_TOKEN'] = Security::getCSRFDetect();
 
         $this->user = $_SESSION;
 
-        UDebug::store($this->user, 'session');
 
-        $this->model = new Model();
+        Debug::store($this->user, 'session');
+
         $this->view = new View();
+
+        $this->view->data['user'] = $this->user;
     }
 }

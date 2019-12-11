@@ -6,4 +6,4 @@ require "app/libraries/Bootstrap.php";
 
 $BootStrap = new BootStrap();
 
-$BootStrap->wakeUp();
+$BootStrap->commandWakeUp();
