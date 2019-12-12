@@ -6,7 +6,7 @@
 class Json implements DataOutput
 {
     /**
-     * дЁ╦╞ем е╦ют
+     * Л╨░К╕╜М└╟ М┐─Л·┘
      * 
      * @var string 
      */

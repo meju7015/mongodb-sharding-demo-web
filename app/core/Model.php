@@ -5,9 +5,9 @@
 class Model
 {
     /**
-     * PDO 객체
+     * MongoDB 객체
      *
-     * @var PDO
+     * @var MongoDB
      */
     protected $connect;
 
@@ -34,20 +34,14 @@ class Model
 
             $dbInfo = Env::getDBConnectInfo();
 
-            Debug::display($dbInfo);
+            //Debug::display($dbInfo);
 
             try {
                 Model::$connectFactory = new MongoDB\Client($dbInfo['master']);
                 $this->connect = Model::$connectFactory;
-                /*if (is_array($dbInfo)) {
-                    foreach ($dbInfo as $key => $item) {
-                        $this->$key = new MongoDB\Client($item);
-                    }
-                } else {
-                    throw new PDOException('PDO Connection error', 500);
-                }*/
-            } catch (PDOException $e) {
-                $viewException = new ModelException('PDO connect error : ' . $e->getMessage(), 500);
+
+            } catch (MongoException $e) {
+                $viewException = new ModelException('MongoDB connect error : ' . $e->getMessage(), 500);
                 $viewException->display();
             }
         } else {

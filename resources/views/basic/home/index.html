@@ -1,16 +1,116 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="EUC-KR">
+    <meta charset="UTF-8">
     <title><?=$head['title']?></title>
+
+    <? if ($head['css']) { ?>
+    <? foreach ($head['css'] as $href) { ?>
+    <link rel="stylesheet" href="<?=$href?>">
+    <? } ?>
+    <? } ?>
+
+    <? if ($head['js']) { ?>
+    <? foreach ($head['js'] as $src) { ?>
+    <script type="text/javascript" src="<?=$src?>"></script>
+    <? } ?>
+    <? } ?>
+
+    <style>
+        .code-block {
+            margin-top:10px;
+            background-color: #1b1e21;
+            padding: 10px;
+            width:100%;
+            min-height:300px;
+        }
+
+        .code-block pre {
+            color: greenyellow;
+        }
+    </style>
 </head>
 <body>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12-md">
-            test
+        <div class="col-md-12">
+            <h4 class="mb-3 mt-3">MongoDB Demo Page</h4>
+        </div>
+        <div class="col-md-12">
+            <table class="table table-hover table-sm" id="list">
+                <colgroup>
+                    <col width="5%">
+                    <col width="70%">
+                </colgroup>
+                <comment>
+                    Board List
+                </comment>
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>title</th>
+                    <th>date</th>
+                    <th>user</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <!--<div class="code-block"></div>-->
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        controller.find();
+    });
+
+    var controller = {
+        find: function() {
+            var collection = "board";
+            var params = "";
+
+            var list = document.getElementById('list');
+
+            $.ajax({
+                url: "/command/find",
+                method: "get",
+                data: { collection: collection, params: params },
+                dataType: "json",
+                success: function(res) {
+                    if (res.success) {
+                        var tr = document.createElement('tbody');
+                        $.each(res.json, function() {
+                            tr.innerHTML += "<tr>" +
+                                            "<td>" + this._id + "</td>" +
+                                            "<td>" + this.title + "</td>" +
+                                            "<td>" + this.date + "</td>" +
+                                            "<td>" + this.users + "</td>" +
+                                            "</tr>";
+                        });
+
+                        list.append(tr);
+                    }
+                }
+            })
+        },
+        execCommand: function() {
+            var commands = $("#command").val();
+
+            $.ajax({
+                url: "/command",
+                method: "post",
+                data: { command:commands },
+                dataType: "json",
+                success: function(res) {
+                    var pannel = document.getElementsByClassName("code-block")[0];
+                    var pre = document.createElement("pre");
+
+                    pre.append(JSON.stringify(res.json, undefined, 4));
+                    pannel.append(pre);
+                }
+            });
+        }
+    }
+</script>
 </body>
 </html>
